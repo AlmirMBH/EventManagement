@@ -1,9 +1,10 @@
-package com.zekerijah.eventdemo.event;
+package com.zekerijah.eventdemo.controller;
 
+import com.zekerijah.eventdemo.domain.Event;
+import com.zekerijah.eventdemo.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 

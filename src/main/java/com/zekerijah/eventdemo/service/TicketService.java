@@ -1,5 +1,7 @@
-package com.zekerijah.eventdemo.ticket;
+package com.zekerijah.eventdemo.service;
 
+import com.zekerijah.eventdemo.domain.Ticket;
+import com.zekerijah.eventdemo.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
