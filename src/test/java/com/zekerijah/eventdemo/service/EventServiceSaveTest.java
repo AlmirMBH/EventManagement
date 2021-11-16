@@ -4,12 +4,14 @@ import com.zekerijah.eventdemo.IntegrationTest;
 import com.zekerijah.eventdemo.PeriodUtil;
 import com.zekerijah.eventdemo.domain.Event;
 import com.zekerijah.eventdemo.domain.Period;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@Disabled
 class EventServiceSaveTest extends IntegrationTest {
 
     @Autowired
