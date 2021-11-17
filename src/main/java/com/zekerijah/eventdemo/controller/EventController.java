@@ -1,18 +1,21 @@
 package com.zekerijah.eventdemo.controller;
 
+import com.zekerijah.eventdemo.controller.dto.CreateEventDto;
 import com.zekerijah.eventdemo.domain.Event;
 import com.zekerijah.eventdemo.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 public class EventController {
 
-    @Autowired
-    private EventService eventService;
+    private final EventService eventService;
 
     @GetMapping("/events")
     public List<Event> getAllEvents(){
@@ -20,7 +23,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/events/{id}")
-    public Optional<Event> getEvent(@PathVariable Integer id){
+    public Event getEvent(@PathVariable Long id){
         return eventService.findEvent(id);
     }
 
@@ -35,7 +38,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/events/{id}/delete", method = RequestMethod.DELETE)
-    public void deleteEvent(@PathVariable Integer id) {
+    public void deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
     }
 

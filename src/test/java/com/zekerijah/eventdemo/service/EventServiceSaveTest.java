@@ -7,11 +7,11 @@ import com.zekerijah.eventdemo.domain.Period;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@Disabled
 class EventServiceSaveTest extends IntegrationTest {
 
     @Autowired
@@ -40,7 +40,7 @@ class EventServiceSaveTest extends IntegrationTest {
     @Test
     void whenEventEndDateBeforeStartDate_thenThrowException() {
         // given
-        Period period = PeriodUtil.generate();
+        Period period = PeriodUtil.generatePeriodWithEndDateBeforeStartDate();
 
         Event event = Event.builder()
                 .title("Dummy event")
@@ -55,9 +55,9 @@ class EventServiceSaveTest extends IntegrationTest {
     }
 
     @Test
-    void whenEventEndTimeBeforeStartTime_thenThrowException() {
+    void whenStartDateBeforeNow_thenThrowException() {
         // given
-        Period period = PeriodUtil.generate();
+        Period period = PeriodUtil.generatePeriodWithStartDateBeforeNow();
 
         Event event = Event.builder()
                 .title("Dummy event")
@@ -68,13 +68,13 @@ class EventServiceSaveTest extends IntegrationTest {
         // when && then
         RuntimeException exception = assertThrows(RuntimeException.class, () -> eventService.saveEvent(event));
 
-        assertThat(exception.getMessage()).isEqualTo("End time is before start time");
+        assertThat(exception.getMessage()).isEqualTo("Start date is before start now");
     }
 
     @Test
-    void whenStartDateBeforeNow_thenThrowException() {
+    void whenEventEndTimeBeforeStartTime_thenThrowException() {
         // given
-        Period period = PeriodUtil.generatePeriodWithStartDateBeforeNow();
+        Period period = PeriodUtil.generatePeriodWithEndTimeBeforeStartTime();
 
         Event event = Event.builder()
                 .title("Dummy event")
@@ -103,5 +103,38 @@ class EventServiceSaveTest extends IntegrationTest {
         RuntimeException exception = assertThrows(RuntimeException.class, () -> eventService.saveEvent(event));
 
         assertThat(exception.getMessage()).isEqualTo("End time is before start time");
+    }
+
+    @Test
+    void whenTitleIsNull_thenThrowException() {
+        // given
+        Period period = PeriodUtil.generate();
+
+        Event event = Event.builder()
+                .title(null)
+                .description("Dummy description")
+                .period(period)
+                .build();
+
+        // when && then
+        assertThrows(DataIntegrityViolationException.class,
+                () -> eventService.saveEvent(event));
+    }
+
+    @Test
+    void whenDescriptionIsNull_thenThrowException() {
+        // given
+        Period period = PeriodUtil.generate();
+
+        Event event = Event.builder()
+                .title("Dummy title")
+                .description(null)
+                .period(period)
+                .build();
+
+        // when && then
+        assertThrows(DataIntegrityViolationException.class,
+                () -> eventService.saveEvent(event));
+
     }
 }

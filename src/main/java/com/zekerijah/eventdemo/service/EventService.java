@@ -1,6 +1,7 @@
 package com.zekerijah.eventdemo.service;
 
 import com.zekerijah.eventdemo.domain.Event;
+import com.zekerijah.eventdemo.domain.EventDemoException;
 import com.zekerijah.eventdemo.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.zekerijah.eventdemo.controller.handler.ErrorCode.EVENT_NOT_FOUND;
+import static com.zekerijah.eventdemo.domain.EventDemoException.*;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +25,9 @@ public class EventService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Event> findEvent(Integer id){
-        return eventRepository.findById(id);
+    public Event findEvent(Long id){
+        return eventRepository.findById(id)
+                .orElseThrow(exception(EVENT_NOT_FOUND));
     }
 
     @Transactional
@@ -36,7 +41,7 @@ public class EventService {
     }
 
     @Transactional
-    public void deleteEvent (Integer id) {
+    public void deleteEvent (Long id) {
         eventRepository.deleteById(id);
     }
 }

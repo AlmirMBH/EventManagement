@@ -16,12 +16,16 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Period {
+    @Column(nullable = false)
     private LocalDate startDate;
 
+    @Column(nullable = false)
     private LocalDate endDate;
 
+    @Column(nullable = false)
     private Time startTime;
 
+    @Column(nullable = false)
     private Time endTime;
 
     @PrePersist
@@ -39,7 +43,7 @@ public class Period {
             throw new RuntimeException("Start date is before start now");
         } else if (endDate.isBefore(startDate)) {
             throw new RuntimeException("End date is before start date");
-        } else if (endTime.toLocalTime().isBefore(LocalTime.now())) {
+        } else if (startTime.toLocalTime().isBefore(LocalTime.now())) {
             throw new RuntimeException("Start time is before start now");
         } else if (endTime.toLocalTime().isBefore(startTime.toLocalTime())) {
             throw new RuntimeException("End time is before start time");
