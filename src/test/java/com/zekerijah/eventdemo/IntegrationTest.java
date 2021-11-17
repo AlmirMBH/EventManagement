@@ -1,6 +1,7 @@
 package com.zekerijah.eventdemo;
 
 import com.zekerijah.eventdemo.repository.EventRepository;
+import com.zekerijah.eventdemo.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,4 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class IntegrationTest {
     @Autowired
     protected EventRepository eventRepository;
+
+    @Autowired
+    protected TicketRepository ticketRepository;
 }
