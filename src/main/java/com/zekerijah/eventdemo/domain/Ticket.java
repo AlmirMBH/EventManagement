@@ -20,11 +20,14 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
     private String name;
 
-    private double price;
+    @Column(nullable = false)
+    private Double price;
 
-    private int quantityAvailabel;
+    @Column(nullable = false)
+    private int quantityAvailable;
 
     @Embedded
     private Period period;
