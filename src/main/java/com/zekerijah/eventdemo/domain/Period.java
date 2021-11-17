@@ -8,9 +8,9 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
-import static com.zekerijah.eventdemo.controller.handler.ErrorCode.*;
+import static com.zekerijah.eventdemo.controller.handler.ErrorCode.END_DATE_IS_BEFORE_START_DATE;
+import static com.zekerijah.eventdemo.controller.handler.ErrorCode.END_TIME_IS_BEFORE_START_TIME;
 
 @Getter
 @Embeddable
@@ -48,15 +48,8 @@ public class Period {
         // END DATE 2021-11-18
         // START TIME 22:52:49
         // END TIME 00:52:49
-
-        // SEHA DA SKONTA PROBLEM SAM
-        // PA TEK ONDA DA TRZI POMOC PRIJATELJA
-        if (startDate.isBefore(LocalDate.now())) {
-            throw new EventDemoException(START_DATE_IS_BEFORE_NOW);
-        } else if (endDate.isBefore(startDate)) {
+        if (endDate.isBefore(startDate)) {
             throw new EventDemoException(END_DATE_IS_BEFORE_START_DATE);
-        } else if (startTime.toLocalTime().isBefore(LocalTime.now())) {
-            throw new EventDemoException(START_TIME_IS_BEFORE_NOW);
         } else if (endTime.toLocalTime().isBefore(startTime.toLocalTime())) {
             throw new EventDemoException(END_TIME_IS_BEFORE_START_TIME);
         }

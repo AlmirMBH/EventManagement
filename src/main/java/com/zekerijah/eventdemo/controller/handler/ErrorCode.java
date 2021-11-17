@@ -19,9 +19,9 @@ public enum ErrorCode {
 
     END_TIME_IS_BEFORE_START_TIME(40002, "End time is before start time", BAD_REQUEST),
 
-    START_DATE_IS_BEFORE_NOW(40003, "Start date is before start now", BAD_REQUEST),
+    START_DATE_IS_BEFORE_NOW(40003, "Start date is before now", BAD_REQUEST),
 
-    START_TIME_IS_BEFORE_NOW(40004, "End time is before start now", BAD_REQUEST),
+    START_TIME_IS_BEFORE_NOW(40004, "Start time is before now", BAD_REQUEST),
 
     //
 
