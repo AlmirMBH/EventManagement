@@ -70,7 +70,40 @@ public class TicketServiceSaveTest extends IntegrationTest {
         RuntimeException exception = assertThrows(RuntimeException.class, ()-> ticketService.saveTicket(ticket));
 
         assertThat(exception.getMessage()).isEqualTo("Start date is before start now");
-
-
     }
+
+    @Test
+    void  whenTicketEndSaleTimeBeforeStartSaleTime_thenThrowException(){
+        //given
+        Period period = PeriodUtil.generatePeriodWithEndTimeBeforeStartTime();
+
+        Ticket ticket = Ticket.builder()
+                .name("Dummy name")
+                .price(20.00)
+                .quantityAvailabel(400)
+                .period(period)
+                .build();
+
+        //when && then
+        RuntimeException exception = assertThrows(RuntimeException.class, ()-> ticketService.saveTicket(ticket));
+
+        assertThat(exception.getMessage()).isEqualTo("End time is before start time");
+    }
+
+    @Test
+    void whenTicketStartSaleTimeBeforeNow_thenThrowException(){
+        //given
+        Period period = PeriodUtil.generatePeriodWithStartTimeBeforeNow();
+
+        Ticket ticket = Ticket.builder()
+                .name("Dummy name")
+                .price(20.00)
+                .period(period)
+                .quantityAvailabel(250)
+                .build();
+
+        //when && then
+        RuntimeException exception = assertThrows(RuntimeException.class, ()-> ticketService.saveTicket(ticket));
+
+        assertThat(exception.getMessage()).isEqualTo("End time is before start time");
 }
