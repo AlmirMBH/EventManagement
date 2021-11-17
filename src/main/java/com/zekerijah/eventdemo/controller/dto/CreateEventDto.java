@@ -19,5 +19,5 @@ public class CreateEventDto {
     @NotBlank
     private String description;
     @NotNull
-    private Period period;
+    private PeriodDto period;
 }

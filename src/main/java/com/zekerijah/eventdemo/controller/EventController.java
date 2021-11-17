@@ -2,11 +2,14 @@ package com.zekerijah.eventdemo.controller;
 
 import com.zekerijah.eventdemo.controller.dto.CreateEventDto;
 import com.zekerijah.eventdemo.domain.Event;
+import com.zekerijah.eventdemo.domain.Period;
 import com.zekerijah.eventdemo.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -28,11 +31,21 @@ public class EventController {
 
     @PostMapping(value = "/events")
     public void createEvent(@RequestBody @Validated CreateEventDto req){
+
+        Period period = Period.builder()
+                .startDate(req.getPeriod().getStart().toLocalDate())
+                .endDate(req.getPeriod().getEnd().toLocalDate())
+                .startTime(Time.valueOf(req.getPeriod().getStart().toLocalTime()))
+                .endTime(Time.valueOf(req.getPeriod().getEnd().toLocalTime()))
+                .build();
+
+
         Event event = Event.builder()
                 .title(req.getTitle())
                 .description(req.getDescription())
-                .period(req.getPeriod())
+                .period(period)
                 .build();
+
         eventService.saveEvent(event);
     }
 
