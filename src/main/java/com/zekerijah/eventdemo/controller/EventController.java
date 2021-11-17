@@ -5,12 +5,14 @@ import com.zekerijah.eventdemo.domain.Event;
 import com.zekerijah.eventdemo.domain.Period;
 import com.zekerijah.eventdemo.service.EventService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
@@ -30,6 +32,7 @@ public class EventController {
 
     @PostMapping(value = "/events")
     public void createEvent(@RequestBody @Validated CreateEventDto req){
+        log.info("Create event " + req.toString());
 
         Period period = Period.builder()
                 .startDate(req.getPeriod().getStart().toLocalDate())

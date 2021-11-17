@@ -19,4 +19,13 @@ public class CreateEventDto {
     private String description;
     @NotNull
     private PeriodDto period;
+
+    @Override
+    public String toString() {
+        return "CreateEventDto{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", period=" + period +
+                '}';
+    }
 }

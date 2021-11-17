@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,7 +13,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PeriodDto {
+    @NotNull
     private LocalDateTime start;
+    @NotNull
     private LocalDateTime end;
 
+    @Override
+    public String toString() {
+        return "PeriodDto{" +
+                "start=" + start +
+                ", end=" + end +
+                '}';
+    }
 }
