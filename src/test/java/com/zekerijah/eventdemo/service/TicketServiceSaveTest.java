@@ -6,6 +6,7 @@ import com.zekerijah.eventdemo.domain.Period;
 import com.zekerijah.eventdemo.domain.Ticket;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -23,7 +24,7 @@ public class TicketServiceSaveTest extends IntegrationTest {
         Ticket ticket = Ticket.builder()
                 .name("Dummy name")
                 .price(20.00)
-                .quantityAvailabel(300)
+                .quantityAvailable(300)
                 .build();
 
         //when
@@ -44,7 +45,7 @@ public class TicketServiceSaveTest extends IntegrationTest {
         Ticket ticket = Ticket.builder()
                 .name("Dummy name")
                 .price(20.00)
-                .quantityAvailabel(400)
+                .quantityAvailable(400)
                 .period(period)
                 .build();
 
@@ -62,7 +63,7 @@ public class TicketServiceSaveTest extends IntegrationTest {
         Ticket ticket = Ticket.builder()
                 .name("Dummy name")
                 .price(20.00)
-                .quantityAvailabel(400)
+                .quantityAvailable(400)
                 .period(period)
                 .build();
 
@@ -80,7 +81,7 @@ public class TicketServiceSaveTest extends IntegrationTest {
         Ticket ticket = Ticket.builder()
                 .name("Dummy name")
                 .price(20.00)
-                .quantityAvailabel(400)
+                .quantityAvailable(400)
                 .period(period)
                 .build();
 
@@ -99,11 +100,62 @@ public class TicketServiceSaveTest extends IntegrationTest {
                 .name("Dummy name")
                 .price(20.00)
                 .period(period)
-                .quantityAvailabel(250)
+                .quantityAvailable(250)
                 .build();
 
         //when && then
         RuntimeException exception = assertThrows(RuntimeException.class, ()-> ticketService.saveTicket(ticket));
 
         assertThat(exception.getMessage()).isEqualTo("End time is before start time");
+    }
+
+    @Test
+    void whenTicketNameIsNull_thenThrowException(){
+        //given
+        Period period = PeriodUtil.generate();
+
+        Ticket ticket = Ticket.builder()
+                .name(null)
+                .period(period)
+                .price(20.00)
+                .quantityAvailable(333)
+                .build();
+
+        // when && then
+        assertThrows(DataIntegrityViolationException.class, ()-> ticketService.saveTicket(ticket));
+    }
+
+    @Test
+    void whenTicketPriceIsNull_thenThrowException(){
+        //given
+        Period period = PeriodUtil.generate();
+
+        Ticket ticket = Ticket.builder()
+                .name("Dummy name")
+                .price(null)
+                .period(period)
+                .quantityAvailable(1)
+                .build();
+
+        // when && then
+        assertThrows(DataIntegrityViolationException.class, ()-> ticketService.saveTicket(ticket));
+
+    }
+
+    @Test
+    void whenQuantityAvailableIsNull_thenThrowException(){
+        //given
+        Period period = PeriodUtil.generate();
+
+        Ticket ticket = Ticket.builder()
+                .name("Dummy name")
+                .period(period)
+                .quantityAvailable(null)
+                .price(2.3)
+                .build();
+        
+        // when && then
+        assertThrows(DataIntegrityViolationException.class, ()-> ticketService.saveTicket(ticket));
+
+    }
 }
