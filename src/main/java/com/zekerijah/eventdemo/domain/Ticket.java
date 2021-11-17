@@ -27,7 +27,7 @@ public class Ticket {
     private Double price;
 
     @Column(nullable = false)
-    private int quantityAvailable;
+    private Integer quantityAvailable;
 
     @Embedded
     private Period period;
