@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TicketServiceSaveTest extends IntegrationTest {
 
@@ -16,7 +17,7 @@ public class TicketServiceSaveTest extends IntegrationTest {
 
     @Test
     void whenValidTicket_thenSave(){
-
+        //given
         Period period = PeriodUtil.generate();
 
         Ticket ticket = Ticket.builder()
@@ -25,11 +26,51 @@ public class TicketServiceSaveTest extends IntegrationTest {
                 .quantityAvailabel(300)
                 .build();
 
+        //when
         Ticket result = ticketService.saveTicket(ticket);
 
+        //then
         Ticket persisted = ticketRepository.getById(result.getId());
 
         assertThat(result).isEqualTo(persisted);
         assertThat(result.getEvent()).isNull();
+    }
+
+    @Test
+    void whenTicketEndSaleDateBeforeStartSaleDate_thenThrowException(){
+        //given
+        Period period = PeriodUtil.generatePeriodWithEndDateBeforeStartDate();
+
+        Ticket ticket = Ticket.builder()
+                .name("Dummy name")
+                .price(20.00)
+                .quantityAvailabel(400)
+                .period(period)
+                .build();
+
+        //when && then
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> ticketService.saveTicket(ticket) );
+
+        assertThat(exception.getMessage()).isEqualTo("End date is before start date");
+    }
+
+    @Test
+    void whenTicketStartSaleDateBeforeNow_thenThrowException(){
+        //given
+        Period period = PeriodUtil.generatePeriodWithStartDateBeforeNow();
+
+        Ticket ticket = Ticket.builder()
+                .name("Dummy name")
+                .price(20.00)
+                .quantityAvailabel(400)
+                .period(period)
+                .build();
+
+        //when && then
+        RuntimeException exception = assertThrows(RuntimeException.class, ()-> ticketService.saveTicket(ticket));
+
+        assertThat(exception.getMessage()).isEqualTo("Start date is before start now");
+
+
     }
 }
