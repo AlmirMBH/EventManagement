@@ -4,7 +4,6 @@ import com.zekerijah.eventdemo.domain.Period;
 
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class PeriodUtil {
@@ -13,7 +12,7 @@ public class PeriodUtil {
         return Period.builder()
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
-                .startTime(Time.valueOf(LocalTime.now().plusHours(1)))
+                .startTime(Time.valueOf(LocalTime.now()))
                 .endTime(Time.valueOf(LocalTime.now().plusHours(2)))
                 .build();
     }

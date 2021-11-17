@@ -10,6 +10,8 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import static com.zekerijah.eventdemo.controller.handler.ErrorCode.*;
+
 @Getter
 @Embeddable
 @Builder
@@ -38,15 +40,25 @@ public class Period {
         validate();
     }
 
-    private void validate() {
+    public void validate() {
+        // TODO
+        // Create test for this method
+
+        // START DATE 2021-11-17
+        // END DATE 2021-11-18
+        // START TIME 22:52:49
+        // END TIME 00:52:49
+
+        // SEHA DA SKONTA PROBLEM SAM
+        // PA TEK ONDA DA TRZI POMOC PRIJATELJA
         if (startDate.isBefore(LocalDate.now())) {
-            throw new RuntimeException("Start date is before start now");
+            throw new EventDemoException(START_DATE_IS_BEFORE_NOW);
         } else if (endDate.isBefore(startDate)) {
-            throw new RuntimeException("End date is before start date");
+            throw new EventDemoException(END_DATE_IS_BEFORE_START_DATE);
         } else if (startTime.toLocalTime().isBefore(LocalTime.now())) {
-            throw new RuntimeException("Start time is before start now");
+            throw new EventDemoException(START_TIME_IS_BEFORE_NOW);
         } else if (endTime.toLocalTime().isBefore(startTime.toLocalTime())) {
-            throw new RuntimeException("End time is before start time");
+            throw new EventDemoException(END_TIME_IS_BEFORE_START_TIME);
         }
     }
 }

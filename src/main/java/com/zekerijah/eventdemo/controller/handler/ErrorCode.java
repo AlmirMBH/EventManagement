@@ -15,6 +15,14 @@ public enum ErrorCode {
     //
     EVENT_NOT_FOUND(40001, "Event not found", BAD_REQUEST),
 
+    END_DATE_IS_BEFORE_START_DATE(40002, "End date is before start date", BAD_REQUEST),
+
+    END_TIME_IS_BEFORE_START_TIME(40002, "End time is before start time", BAD_REQUEST),
+
+    START_DATE_IS_BEFORE_NOW(40003, "Start date is before start now", BAD_REQUEST),
+
+    START_TIME_IS_BEFORE_NOW(40004, "End time is before start now", BAD_REQUEST),
+
     //
 
     EXCEPTION(50001, "Exception occurred", INTERNAL_SERVER_ERROR),
