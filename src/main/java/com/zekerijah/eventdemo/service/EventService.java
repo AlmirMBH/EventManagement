@@ -1,5 +1,6 @@
 package com.zekerijah.eventdemo.service;
 
+import com.zekerijah.eventdemo.controller.dto.CreateEventDto;
 import com.zekerijah.eventdemo.domain.Event;
 import com.zekerijah.eventdemo.domain.EventDemoException;
 import com.zekerijah.eventdemo.repository.EventRepository;

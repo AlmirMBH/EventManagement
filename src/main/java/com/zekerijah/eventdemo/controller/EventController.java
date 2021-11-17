@@ -28,8 +28,12 @@ public class EventController {
         return eventService.findEvent(id);
     }
 
-    @RequestMapping(value = "/events", method = RequestMethod.POST)
-    public void createEvent(@RequestBody Event event){
+    @PostMapping(value = "/events")
+    public void createEvent(@RequestBody CreateEventDto req){
+        Event event = Event.builder()
+                .title(req.getTitle())
+                .description(req.getDescription())
+                .build();
         eventService.saveEvent(event);
     }
 
