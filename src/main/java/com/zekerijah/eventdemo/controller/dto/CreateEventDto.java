@@ -1,6 +1,5 @@
 package com.zekerijah.eventdemo.controller.dto;
 
-import com.zekerijah.eventdemo.domain.Period;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

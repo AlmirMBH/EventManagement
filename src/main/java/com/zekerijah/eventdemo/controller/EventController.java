@@ -9,12 +9,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class EventController {
 
     private final EventService eventService;
