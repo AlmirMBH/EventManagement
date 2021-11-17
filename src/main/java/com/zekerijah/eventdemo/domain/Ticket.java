@@ -26,6 +26,9 @@ public class Ticket {
 
     private int quantityAvailabel;
 
+    @Embedded
+    private Period period;
+
     @Setter
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "event_id", insertable = false, updatable = false)
