@@ -3,8 +3,8 @@ package com.zekerijah.eventdemo.service;
 import com.zekerijah.eventdemo.IntegrationTest;
 import com.zekerijah.eventdemo.PeriodUtil;
 import com.zekerijah.eventdemo.domain.Event;
+import com.zekerijah.eventdemo.domain.EventDemoException;
 import com.zekerijah.eventdemo.domain.Period;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -66,9 +66,9 @@ class EventServiceSaveTest extends IntegrationTest {
                 .build();
 
         // when && then
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> eventService.saveEvent(event));
+        EventDemoException exception = assertThrows(EventDemoException.class, () -> eventService.saveEvent(event));
 
-        assertThat(exception.getMessage()).isEqualTo("Start date is before start now");
+        assertThat(exception.getMessage()).isEqualTo("Start date is before now");
     }
 
     @Test
@@ -102,7 +102,7 @@ class EventServiceSaveTest extends IntegrationTest {
         // when && then
         RuntimeException exception = assertThrows(RuntimeException.class, () -> eventService.saveEvent(event));
 
-        assertThat(exception.getMessage()).isEqualTo("End time is before start time");
+        assertThat(exception.getMessage()).isEqualTo("Start time is before now");
     }
 
     @Test
