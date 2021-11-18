@@ -20,7 +20,7 @@ public class TicketController {
     }
 
     @RequestMapping(value = "/tickets/{id}")
-    public Optional<Ticket> getTicket(@PathVariable Integer id){
+    public Optional<Ticket> getTicket(@PathVariable Long id){
         return ticketService.findTicket(id);
     }
 
@@ -30,12 +30,12 @@ public class TicketController {
     }
 
     @RequestMapping(value = "/tickets/{id}/edit", method = RequestMethod.PUT)
-    public void updateTicket(@PathVariable Integer id, @RequestBody Ticket ticket){
+    public void updateTicket(@PathVariable Long id, @RequestBody Ticket ticket){
         ticketService.updateTicket(ticket);
     }
 
     @RequestMapping(value = "/tickets/{id}/delete", method = RequestMethod.DELETE)
-    public void deleteTicket(@PathVariable Integer id) {
+    public void deleteTicket(@PathVariable Long id) {
         ticketService.deleteTicket(id);
     }
 

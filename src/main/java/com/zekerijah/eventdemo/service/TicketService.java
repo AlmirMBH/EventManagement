@@ -21,7 +21,7 @@ public class TicketService {
     }
 
     @Transactional
-    public Optional<Ticket> findTicket(Integer id){
+    public Optional<Ticket> findTicket(Long id){
         return ticketRepository.findById(id);
     }
 
@@ -36,7 +36,7 @@ public class TicketService {
     }
 
     @Transactional
-    public void deleteTicket (Integer id) {
+    public void deleteTicket (Long id) {
         ticketRepository.deleteById(id);
     }
 
