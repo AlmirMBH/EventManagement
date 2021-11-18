@@ -25,6 +25,7 @@ public class TicketServiceSaveTest extends IntegrationTest {
                 .name("Dummy name")
                 .price(20.00)
                 .quantityAvailable(300)
+                .period(period)
                 .build();
 
         //when
@@ -153,7 +154,7 @@ public class TicketServiceSaveTest extends IntegrationTest {
                 .quantityAvailable(null)
                 .price(2.3)
                 .build();
-        
+
         // when && then
         assertThrows(DataIntegrityViolationException.class, ()-> ticketService.saveTicket(ticket));
 
