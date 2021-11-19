@@ -5,6 +5,7 @@ import com.zekerijah.eventdemo.PeriodUtil;
 import com.zekerijah.eventdemo.domain.Event;
 import com.zekerijah.eventdemo.domain.EventDemoException;
 import com.zekerijah.eventdemo.domain.Period;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,7 +13,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class EventServiceSaveTest extends IntegrationTest {
+@Disabled
+class EventServiceSaveTestDisabled extends IntegrationTest {
 
     @Autowired
     private EventService eventService;
