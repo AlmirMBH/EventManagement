@@ -25,12 +25,12 @@ public class EventController {
         return eventService.findAllEvent();
     }
 
-    @RequestMapping(value = "/events/{id}")
+    @RequestMapping("/events/{id}")
     public Event getEvent(@PathVariable Long id){
         return eventService.findEvent(id);
     }
 
-    @PostMapping(value = "/events")
+    @PostMapping("/events")
     public void createEvent(@RequestBody @Validated CreateEventDto req){
         log.info("Create event " + req.toString());
 
@@ -51,12 +51,28 @@ public class EventController {
         eventService.saveEvent(event);
     }
 
-    @RequestMapping(value = "/events/{id}/edit", method = RequestMethod.PUT)
-    public void updateEvent(@PathVariable Integer id, @RequestBody Event event){
-        eventService.updateEvent(event);
+    @PutMapping("/events/{id}/update")
+    public void updateEvent(@RequestBody CreateEventDto req, @PathVariable Long id){
+
+        Period period = Period.builder()
+                .startDate(req.getPeriod().getStart().toLocalDate())
+                .endDate(req.getPeriod().getEnd().toLocalDate())
+                .startTime(Time.valueOf(req.getPeriod().getStart().toLocalTime()))
+                .endTime(Time.valueOf(req.getPeriod().getEnd().toLocalTime()))
+                .build();
+
+
+
+        Event event = Event.builder()
+                .title(req.getTitle())
+                .description(req.getDescription())
+                .period(period)
+                .build();
+
+        eventService.updateEvent(id, event);
     }
 
-    @RequestMapping(value = "/events/{id}/delete", method = RequestMethod.DELETE)
+    @DeleteMapping("/events/{id}/delete")
     public void deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
     }
