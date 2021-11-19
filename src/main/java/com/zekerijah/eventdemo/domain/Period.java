@@ -50,8 +50,10 @@ public class Period {
         // END TIME 00:52:49
         if (endDate.isBefore(startDate)) {
             throw new EventDemoException(END_DATE_IS_BEFORE_START_DATE);
-        } else if (endTime.toLocalTime().isBefore(startTime.toLocalTime())) {
-            throw new EventDemoException(END_TIME_IS_BEFORE_START_TIME);
+        } else if (endDate.isEqual(startDate)) {
+            if ((endTime.toLocalTime().isBefore(startTime.toLocalTime()))) {
+                throw  new EventDemoException(PRESENT_DATE_END_TIME_IS_BEFORE_START_TIME);
+            }
         }
     }
 }
