@@ -37,8 +37,15 @@ public class EventService {
     }
 
     @Transactional
-    public void updateEvent (Event event) {
-        eventRepository.save(event);
+    public void updateEvent (Long eventId, Event event) {
+        Event currentEvent = eventRepository.findById(eventId).orElseThrow(exception(EVENT_NOT_FOUND));
+
+        currentEvent.setTitle(event.getTitle());
+        currentEvent.setDescription(event.getDescription());
+        currentEvent.getPeriod().setStartDate(event.getPeriod().getStartDate());
+        currentEvent.getPeriod().setEndDate(event.getPeriod().getEndDate());
+        currentEvent.getPeriod().setStartTime(event.getPeriod().getStartTime());
+        currentEvent.getPeriod().setEndTime(event.getPeriod().getEndTime());
     }
 
     @Transactional
