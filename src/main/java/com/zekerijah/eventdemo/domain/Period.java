@@ -13,6 +13,7 @@ import java.time.LocalTime;
 import static com.zekerijah.eventdemo.controller.handler.ErrorCode.*;
 
 @Getter
+@Setter
 @Embeddable
 @Builder
 @AllArgsConstructor
