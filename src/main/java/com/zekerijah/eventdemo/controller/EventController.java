@@ -53,14 +53,10 @@ public class EventController {
     }
 
     @PutMapping("/events")
+    @ResponseStatus(HttpStatus.CREATED)
     public void updateEvent(@RequestBody UpdateEventDto req){
 
-        Period period = Period.builder()
-                .startDate(req.getPeriod().getStart().toLocalDate())
-                .endDate(req.getPeriod().getEnd().toLocalDate())
-                .startTime(Time.valueOf(req.getPeriod().getStart().toLocalTime()))
-                .endTime(Time.valueOf(req.getPeriod().getEnd().toLocalTime()))
-                .build();
+        Period period = periodMapper.map( req.getPeriod());
 
 
         Event event = Event.builder()
