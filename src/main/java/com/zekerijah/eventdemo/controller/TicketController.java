@@ -1,18 +1,29 @@
 package com.zekerijah.eventdemo.controller;
 
+import com.zekerijah.eventdemo.controller.dto.CreateTicketDto;
+import com.zekerijah.eventdemo.controller.dto.PeriodDto;
+import com.zekerijah.eventdemo.domain.Period;
 import com.zekerijah.eventdemo.domain.Ticket;
 import com.zekerijah.eventdemo.service.TicketService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Slf4j
+@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class TicketController {
 
-    @Autowired
-    private TicketService ticketService;
+
+    private final TicketService ticketService;
 
     @GetMapping("/tickets")
     public List<Ticket> getAllTickets(){
@@ -24,17 +35,47 @@ public class TicketController {
         return ticketService.findTicket(id);
     }
 
-    @RequestMapping(value = "/tickets", method = RequestMethod.POST)
-    public void createTicket(@RequestBody Ticket ticket){
+    @PostMapping("/tickets")
+    public void createTicket(@RequestBody @Validated CreateTicketDto req){
+        log.info("Create ticket " + req.toString());
+
+        Period period = Period.builder()
+                .startDate(req.getPeriod().getStart().toLocalDate())
+                .endDate(req.getPeriod().getEnd().toLocalDate())
+                .startTime(Time.valueOf(req.getPeriod().getStart().toLocalTime()))
+                .endTime(Time.valueOf(req.getPeriod().getEnd().toLocalTime()))
+                .build();
+
+        Ticket ticket = Ticket.builder()
+                .name(req.getName())
+                .price(req.getPrice())
+                .quantityAvailable(req.getQuantityAvailable())
+                .period(period)
+                .build();
+
         ticketService.saveTicket(ticket);
     }
 
-    @RequestMapping(value = "/tickets/{id}/edit", method = RequestMethod.PUT)
-    public void updateTicket(@PathVariable Long id, @RequestBody Ticket ticket){
-        ticketService.updateTicket(ticket);
+    @PutMapping("/tickets/{id}/edit")
+    public void updateTicket(@PathVariable Long id, @RequestBody CreateTicketDto req){
+        Period period = Period.builder()
+                .startDate(req.getPeriod().getStart().toLocalDate())
+                .endDate(req.getPeriod().getEnd().toLocalDate())
+                .startTime(Time.valueOf(req.getPeriod().getStart().toLocalTime()))
+                .endTime(Time.valueOf(req.getPeriod().getEnd().toLocalTime()))
+                .build();
+
+        Ticket ticket = Ticket.builder()
+                .name(req.getName())
+                .price(req.getPrice())
+                .quantityAvailable(req.getQuantityAvailable())
+                .period(period)
+                .build();
+
+
     }
 
-    @RequestMapping(value = "/tickets/{id}/delete", method = RequestMethod.DELETE)
+    @DeleteMapping("/tickets/{id}/delete")
     public void deleteTicket(@PathVariable Long id) {
         ticketService.deleteTicket(id);
     }

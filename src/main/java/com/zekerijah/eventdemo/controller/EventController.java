@@ -1,15 +1,20 @@
 package com.zekerijah.eventdemo.controller;
 
 import com.zekerijah.eventdemo.controller.dto.CreateEventDto;
+import com.zekerijah.eventdemo.controller.dto.UpdateEventDto;
+import com.zekerijah.eventdemo.controller.mapper.PeriodMapper;
 import com.zekerijah.eventdemo.domain.Event;
 import com.zekerijah.eventdemo.domain.Period;
 import com.zekerijah.eventdemo.service.EventService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -19,6 +24,7 @@ import java.util.List;
 public class EventController {
 
     private final EventService eventService;
+    private final PeriodMapper periodMapper;
 
     @GetMapping("/events")
     public List<Event> getAllEvents(){
@@ -31,16 +37,11 @@ public class EventController {
     }
 
     @PostMapping("/events")
+    @ResponseStatus(HttpStatus.CREATED)
     public void createEvent(@RequestBody @Validated CreateEventDto req){
         log.info("Create event " + req.toString());
 
-        Period period = Period.builder()
-                .startDate(req.getPeriod().getStart().toLocalDate())
-                .endDate(req.getPeriod().getEnd().toLocalDate())
-                .startTime(Time.valueOf(req.getPeriod().getStart().toLocalTime()))
-                .endTime(Time.valueOf(req.getPeriod().getEnd().toLocalTime()))
-                .build();
-
+        Period period = periodMapper.map( req.getPeriod() );
 
         Event event = Event.builder()
                 .title(req.getTitle())
@@ -51,8 +52,8 @@ public class EventController {
         eventService.saveEvent(event);
     }
 
-    @PutMapping("/events/{id}/update")
-    public void updateEvent(@RequestBody CreateEventDto req, @PathVariable Long id){
+    @PutMapping("/events")
+    public void updateEvent(@RequestBody UpdateEventDto req){
 
         Period period = Period.builder()
                 .startDate(req.getPeriod().getStart().toLocalDate())
@@ -62,18 +63,21 @@ public class EventController {
                 .build();
 
 
-
         Event event = Event.builder()
+                .id(req.getId())
                 .title(req.getTitle())
                 .description(req.getDescription())
                 .period(period)
+                .tickets(Collections.emptyList())
                 .build();
 
-        eventService.updateEvent(id, event);
+        eventService.updateEvent(event);
+
+
     }
 
     @DeleteMapping("/events/{id}/delete")
-    public void deleteEvent(@PathVariable Long id) {
+    public void deleteEvent(@PathVariable Long id ) {
         eventService.deleteEvent(id);
     }
 
