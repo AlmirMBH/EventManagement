@@ -31,8 +31,17 @@ public class TicketService {
     }
 
     @Transactional
-    public void updateTicket (Ticket ticket) {
-        ticketRepository.save(ticket);
+    public void updateTicket (Long id, Ticket ticket) {
+        Ticket currentTicket = ticketRepository.getById(id);
+
+        currentTicket.setName(ticket.getName());
+        currentTicket.setPrice(ticket.getPrice());
+        currentTicket.setQuantityAvailable(ticket.getQuantityAvailable());
+        currentTicket.getPeriod().setStartDate(ticket.getPeriod().getStartDate());
+        currentTicket.getPeriod().setEndDate(ticket.getPeriod().getEndDate());
+        currentTicket.getPeriod().setStartTime(ticket.getPeriod().getStartTime());
+        currentTicket.getPeriod().setEndTime(ticket.getPeriod().getEndTime());
+
     }
 
     @Transactional
