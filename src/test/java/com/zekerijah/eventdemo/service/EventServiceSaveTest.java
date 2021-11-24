@@ -7,6 +7,7 @@ import com.zekerijah.eventdemo.domain.EventDemoException;
 import com.zekerijah.eventdemo.domain.Period;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -35,6 +36,18 @@ public class EventServiceSaveTest extends IntegrationTest {
         assertThat(result).isEqualTo(persisted);
         assertThat(result.getTickets()).isNull();
     }
+
+    @Test
+    void whenDataAndTimeIsEmpty_thenThrowException(){
+        Event event = Event.builder()
+                .title("Dummy event")
+                .description("Dummy description")
+                .period(null)
+                .build();
+
+        DataIntegrityViolationException exception = assertThrows(DataIntegrityViolationException.class,
+                ()-> eventService.saveEvent(event));
+       }
 
     @Test
     void whenEndDateIsBeforeStartDate_thenThrowException(){
@@ -66,4 +79,6 @@ public class EventServiceSaveTest extends IntegrationTest {
         EventDemoException exception = assertThrows(EventDemoException.class, ()-> eventService.saveEvent(event));
         assertThat(exception.getMessage()).isEqualTo("In present date end time is before start time");
     }
+
+    // TO DO @Test empty dates
 }

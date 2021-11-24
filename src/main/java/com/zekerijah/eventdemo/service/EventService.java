@@ -1,6 +1,7 @@
 package com.zekerijah.eventdemo.service;
 
 import com.zekerijah.eventdemo.controller.dto.CreateEventDto;
+import com.zekerijah.eventdemo.controller.handler.ErrorCode;
 import com.zekerijah.eventdemo.domain.Event;
 import com.zekerijah.eventdemo.domain.EventDemoException;
 import com.zekerijah.eventdemo.repository.EventRepository;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.zekerijah.eventdemo.controller.handler.ErrorCode.EVENT_NOT_FOUND;
@@ -41,8 +43,12 @@ public class EventService {
     }
 
     @Transactional
-    public void updateEvent (Event event) {
-        eventRepository.save(event);
+    public Event updateEvent (Event updateEvent) {
+        final Event event = findEvent(updateEvent.getId());
+        event.setTitle(updateEvent.getTitle());
+        event.setDescription(updateEvent.getDescription());
+        event.setPeriod(updateEvent.getPeriod());
+        return eventRepository.save(event);
     }
 
     @Transactional

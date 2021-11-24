@@ -19,6 +19,8 @@ public enum ErrorCode {
 
     PRESENT_DATE_END_TIME_IS_BEFORE_START_TIME(40003, "In present date end time is before start time", BAD_REQUEST),
 
+    DATE_CAN_NOT_BE_EMPTY(40004, "Date and time can not be empty", BAD_REQUEST),
+
     //
 
     EXCEPTION(50001, "Exception occurred", INTERNAL_SERVER_ERROR),

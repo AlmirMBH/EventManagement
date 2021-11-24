@@ -1,7 +1,9 @@
 package com.zekerijah.eventdemo.controller;
 
 import com.zekerijah.eventdemo.controller.dto.CreateEventDto;
+import com.zekerijah.eventdemo.controller.dto.EventCreatedResDto;
 import com.zekerijah.eventdemo.controller.dto.UpdateEventDto;
+import com.zekerijah.eventdemo.controller.mapper.EventMapper;
 import com.zekerijah.eventdemo.controller.mapper.PeriodMapper;
 import com.zekerijah.eventdemo.domain.Event;
 import com.zekerijah.eventdemo.domain.Period;
@@ -12,8 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,43 +21,37 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping(value = "/events")
 public class EventController {
 
     private final EventService eventService;
     private final PeriodMapper periodMapper;
+    private final EventMapper eventMapper;
 
-    @GetMapping("/events")
+    @GetMapping
     public List<Event> getAllEvents(){
         return eventService.findAllEvent();
     }
 
-    @RequestMapping("/events/{id}")
+    @GetMapping("/{id}")
     public Event getEvent(@PathVariable Long id){
         return eventService.findEvent(id);
     }
 
-    @PostMapping("/events")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createEvent(@RequestBody @Validated CreateEventDto req){
+    public EventCreatedResDto createEvent(@RequestBody @Validated CreateEventDto req){
         log.info("Create event " + req.toString());
-
         Period period = periodMapper.map( req.getPeriod() );
-
-        Event event = Event.builder()
-                .title(req.getTitle())
-                .description(req.getDescription())
-                .period(period)
-                .build();
-
-        eventService.saveEvent(event);
+        Event event = eventMapper.map(req, period);
+        Event persisted = eventService.saveEvent(event);
+        return eventMapper.map(persisted);
     }
 
-    @PutMapping("/events")
+    @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void updateEvent(@RequestBody UpdateEventDto req){
-
         Period period = periodMapper.map( req.getPeriod());
-
 
         Event event = Event.builder()
                 .id(req.getId())
@@ -68,11 +62,9 @@ public class EventController {
                 .build();
 
         eventService.updateEvent(event);
-
-
     }
 
-    @DeleteMapping("/events/{id}/delete")
+    @DeleteMapping("/{id}")
     public void deleteEvent(@PathVariable Long id ) {
         eventService.deleteEvent(id);
     }
