@@ -1,5 +1,6 @@
 package com.zekerijah.eventdemo.service;
 
+import com.zekerijah.eventdemo.EventUtil;
 import com.zekerijah.eventdemo.IntegrationTest;
 import com.zekerijah.eventdemo.PeriodUtil;
 import com.zekerijah.eventdemo.controller.dto.PeriodDto;
@@ -27,20 +28,13 @@ public class EventServiceGetByIdTest extends IntegrationTest {
 
     @Test
     void whenEventExist_thenReturn() {
-
-        Period period = PeriodUtil.generate();
-
         //given
-        final Event event = Event.builder()
-                .title("Dummy Title")
-                .description("Dummy Description")
-                .period(period)
-                .build();
+        Event event = EventUtil.generate();
 
         eventService.saveEvent(event);
 
         //when
-        final Event createdEvent = eventRepository.getById(event.getId());
+        Event createdEvent = eventRepository.getById(event.getId());
 
         //then
         assertThat(createdEvent).isNotNull();
@@ -51,6 +45,7 @@ public class EventServiceGetByIdTest extends IntegrationTest {
     void whenEventDoesNotExists_thenThrowException() {
         //when
         final EventDemoException exception = assertThrows(EventDemoException.class, ()-> eventService.findEvent(300L));
+
         //then
         assertThat(exception.getMessage()).isEqualTo("Event not found");
     }
