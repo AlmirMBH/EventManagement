@@ -1,5 +1,6 @@
 package com.zekerijah.eventdemo.service;
 
+import com.zekerijah.eventdemo.EventUtil;
 import com.zekerijah.eventdemo.IntegrationTest;
 import com.zekerijah.eventdemo.PeriodUtil;
 import com.zekerijah.eventdemo.domain.Event;
@@ -20,13 +21,8 @@ public class EventServiceSaveTest extends IntegrationTest {
     @Test
     void whenValidEvent_thenSave() {
         // given
-        Period period = PeriodUtil.generate();
+        Event event = EventUtil.generate();
 
-        Event event = Event.builder()
-                .title("Dummy event")
-                .description("Dummy description")
-                .period(period)
-                .build();
         // when
         Event result = eventService.saveEvent(event);
 
@@ -79,6 +75,4 @@ public class EventServiceSaveTest extends IntegrationTest {
         EventDemoException exception = assertThrows(EventDemoException.class, ()-> eventService.saveEvent(event));
         assertThat(exception.getMessage()).isEqualTo("In present date end time is before start time");
     }
-
-    // TO DO @Test empty dates
 }
