@@ -21,6 +21,7 @@ public enum ErrorCode {
 
     DATE_CAN_NOT_BE_EMPTY(40004, "Date and time can not be empty", BAD_REQUEST),
 
+    TICKET_NOT_FOUND(40005, "Ticket not found", BAD_REQUEST),
     //
 
     EXCEPTION(50001, "Exception occurred", INTERNAL_SERVER_ERROR),

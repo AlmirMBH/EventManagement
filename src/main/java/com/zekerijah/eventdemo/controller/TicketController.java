@@ -1,20 +1,18 @@
 package com.zekerijah.eventdemo.controller;
 
 import com.zekerijah.eventdemo.controller.dto.CreateTicketDto;
-import com.zekerijah.eventdemo.controller.dto.PeriodDto;
+import com.zekerijah.eventdemo.controller.dto.UpdateTicketDto;
+import com.zekerijah.eventdemo.controller.mapper.PeriodMapper;
 import com.zekerijah.eventdemo.domain.Period;
 import com.zekerijah.eventdemo.domain.Ticket;
 import com.zekerijah.eventdemo.service.TicketService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -24,6 +22,7 @@ public class TicketController {
 
 
     private final TicketService ticketService;
+    private final PeriodMapper periodMapper;
 
     @GetMapping("/tickets")
     public List<Ticket> getAllTickets(){
@@ -31,7 +30,7 @@ public class TicketController {
     }
 
     @RequestMapping(value = "/tickets/{id}")
-    public Optional<Ticket> getTicket(@PathVariable Long id){
+    public Ticket getTicket(@PathVariable Long id){
         return ticketService.findTicket(id);
     }
 
@@ -56,14 +55,9 @@ public class TicketController {
         ticketService.saveTicket(ticket);
     }
 
-    @PutMapping("/tickets/{id}/edit")
-    public void updateTicket(@PathVariable Long id, @RequestBody CreateTicketDto req){
-        Period period = Period.builder()
-                .startDate(req.getPeriod().getStart().toLocalDate())
-                .endDate(req.getPeriod().getEnd().toLocalDate())
-                .startTime(Time.valueOf(req.getPeriod().getStart().toLocalTime()))
-                .endTime(Time.valueOf(req.getPeriod().getEnd().toLocalTime()))
-                .build();
+    @PutMapping("/tickets")
+    public void updateTicket(@RequestBody UpdateTicketDto req){
+        Period period = periodMapper.map(req.getPeriod());
 
         Ticket ticket = Ticket.builder()
                 .name(req.getName())
@@ -72,6 +66,7 @@ public class TicketController {
                 .period(period)
                 .build();
 
+        ticketService.updateTicket(ticket);
 
     }
 

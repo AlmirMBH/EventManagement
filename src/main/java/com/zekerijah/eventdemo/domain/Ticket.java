@@ -6,6 +6,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import java.util.Objects;
+
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -38,4 +40,16 @@ public class Ticket {
     @JoinColumn(name = "event_id", insertable = false, updatable = false)
     private Event event;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ticket)) return false;
+        Ticket ticket = (Ticket) o;
+        return getId().equals(ticket.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }

@@ -6,8 +6,6 @@ import com.zekerijah.eventdemo.domain.Event;
 import com.zekerijah.eventdemo.domain.Period;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-
 @Component
 public class EventMapper {
 

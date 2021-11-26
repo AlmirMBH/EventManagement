@@ -24,6 +24,4 @@ public class PeriodMapper {
                 .endTime(Time.valueOf(dto.getEnd().toLocalTime()))
                 .build();
     }
-
-
 }
