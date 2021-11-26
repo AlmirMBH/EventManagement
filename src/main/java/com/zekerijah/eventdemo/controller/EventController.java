@@ -49,7 +49,7 @@ public class EventController {
     }
 
     @PutMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public void updateEvent(@RequestBody UpdateEventDto req){
         Period period = periodMapper.map( req.getPeriod());
 

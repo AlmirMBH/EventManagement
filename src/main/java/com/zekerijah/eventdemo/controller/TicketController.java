@@ -8,6 +8,7 @@ import com.zekerijah.eventdemo.domain.Ticket;
 import com.zekerijah.eventdemo.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,23 +19,24 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/tickets")
 public class TicketController {
-
 
     private final TicketService ticketService;
     private final PeriodMapper periodMapper;
 
-    @GetMapping("/tickets")
+    @GetMapping()
     public List<Ticket> getAllTickets(){
         return ticketService.findAllTicket();
     }
 
-    @RequestMapping(value = "/tickets/{id}")
+    @GetMapping("/{id}")
     public Ticket getTicket(@PathVariable Long id){
         return ticketService.findTicket(id);
     }
 
-    @PostMapping("/tickets")
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
     public void createTicket(@RequestBody @Validated CreateTicketDto req){
         log.info("Create ticket " + req.toString());
 
@@ -55,7 +57,8 @@ public class TicketController {
         ticketService.saveTicket(ticket);
     }
 
-    @PutMapping("/tickets")
+    @PutMapping()
+    @ResponseStatus(HttpStatus.OK)
     public void updateTicket(@RequestBody UpdateTicketDto req){
         Period period = periodMapper.map(req.getPeriod());
 
@@ -70,7 +73,7 @@ public class TicketController {
 
     }
 
-    @DeleteMapping("/tickets/{id}/delete")
+    @DeleteMapping("{id}/delete")
     public void deleteTicket(@PathVariable Long id) {
         ticketService.deleteTicket(id);
     }
