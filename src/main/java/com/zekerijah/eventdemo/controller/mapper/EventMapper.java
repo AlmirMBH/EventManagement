@@ -9,10 +9,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class EventMapper {
 
+    PeriodMapper periodMapper = new PeriodMapper();
+
     public EventCreatedResDto map(Event event) {
         return EventCreatedResDto
                 .builder()
                 .id(event.getId())
+                .description(event.getDescription())
+                .period(periodMapper.map(event.getPeriod()))
                 .title(event.getTitle())
                 .build();
     }
