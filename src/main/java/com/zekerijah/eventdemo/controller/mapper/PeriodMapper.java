@@ -1,16 +1,11 @@
 package com.zekerijah.eventdemo.controller.mapper;
 
 import com.zekerijah.eventdemo.controller.dto.PeriodDto;
-import com.zekerijah.eventdemo.domain.Event;
 import com.zekerijah.eventdemo.domain.Period;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Component
 public class PeriodMapper {
@@ -24,4 +19,12 @@ public class PeriodMapper {
                 .endTime(Time.valueOf(dto.getEnd().toLocalTime()))
                 .build();
     }
+
+    public PeriodDto map(Period period) {
+        return PeriodDto.builder()
+                .start(LocalDateTime.of(period.getStartDate(), period.getStartTime().toLocalTime()))
+                .end(LocalDateTime.of(period.getEndDate() , period.getEndTime().toLocalTime()))
+                .build();
+    }
+
 }
