@@ -57,4 +57,14 @@ public class Period {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "Period{" +
+                "startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
+    }
 }
