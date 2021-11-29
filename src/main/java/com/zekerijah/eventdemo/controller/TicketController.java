@@ -1,8 +1,10 @@
 package com.zekerijah.eventdemo.controller;
 
 import com.zekerijah.eventdemo.controller.dto.CreateTicketReq;
+import com.zekerijah.eventdemo.controller.dto.CreateTicketRes;
 import com.zekerijah.eventdemo.controller.dto.UpdateTicketReq;
 import com.zekerijah.eventdemo.controller.mapper.PeriodMapper;
+import com.zekerijah.eventdemo.controller.mapper.TicketMapper;
 import com.zekerijah.eventdemo.domain.Period;
 import com.zekerijah.eventdemo.domain.Ticket;
 import com.zekerijah.eventdemo.service.TicketService;
@@ -24,6 +26,7 @@ public class TicketController {
 
     private final TicketService ticketService;
     private final PeriodMapper periodMapper;
+    private final TicketMapper ticketMapper;
 
     @GetMapping()
     public List<Ticket> getAllTickets(){
@@ -37,24 +40,12 @@ public class TicketController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public void createTicket(@RequestBody @Validated CreateTicketReq req){
+    public CreateTicketRes createTicket(@RequestBody @Validated CreateTicketReq req){
         log.info("Create ticket " + req.toString());
-
-        Period period = Period.builder()
-                .startDate(req.getPeriod().getStart().toLocalDate())
-                .endDate(req.getPeriod().getEnd().toLocalDate())
-                .startTime(Time.valueOf(req.getPeriod().getStart().toLocalTime()))
-                .endTime(Time.valueOf(req.getPeriod().getEnd().toLocalTime()))
-                .build();
-
-        Ticket ticket = Ticket.builder()
-                .name(req.getName())
-                .price(req.getPrice())
-                .quantityAvailable(req.getQuantityAvailable())
-                .period(period)
-                .build();
-
-        ticketService.saveTicket(ticket);
+        Period period = periodMapper.map(req.getPeriod());
+        Ticket ticket = ticketMapper.map(req, period);
+        Ticket persisted = ticketService.saveTicket(ticket);
+        return ticketMapper.map(persisted);
     }
 
     @PutMapping()
