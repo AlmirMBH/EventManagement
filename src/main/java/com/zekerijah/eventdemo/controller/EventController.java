@@ -3,6 +3,7 @@ package com.zekerijah.eventdemo.controller;
 import com.zekerijah.eventdemo.controller.dto.CreateEventReq;
 import com.zekerijah.eventdemo.controller.dto.CreateEventRes;
 import com.zekerijah.eventdemo.controller.dto.UpdateEventReq;
+import com.zekerijah.eventdemo.controller.dto.UpdateEventRes;
 import com.zekerijah.eventdemo.controller.mapper.EventMapper;
 import com.zekerijah.eventdemo.controller.mapper.PeriodMapper;
 import com.zekerijah.eventdemo.domain.Event;
@@ -10,6 +11,7 @@ import com.zekerijah.eventdemo.domain.Period;
 import com.zekerijah.eventdemo.service.EventService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.event.internal.EventUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -50,18 +52,17 @@ public class EventController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void updateEvent(@RequestBody UpdateEventReq req){
-        Period period = periodMapper.map( req.getPeriod());
-
-        Event event = Event.builder()
+    public UpdateEventRes updateEvent(@RequestBody UpdateEventReq req){
+        log.info("Update event: " + req.toString());
+        Event event =  Event.builder()
                 .id(req.getId())
                 .title(req.getTitle())
                 .description(req.getDescription())
-                .period(period)
-                .tickets(Collections.emptyList())
+                .period(periodMapper.map(req.getPeriod()))
                 .build();
 
-        eventService.updateEvent(event);
+        Event updated = eventService.updateEvent(event);
+        return eventMapper.mapUpdate(updated);
     }
 
     @DeleteMapping("/{id}")

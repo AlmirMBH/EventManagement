@@ -2,6 +2,8 @@ package com.zekerijah.eventdemo.controller.mapper;
 
 import com.zekerijah.eventdemo.controller.dto.CreateEventReq;
 import com.zekerijah.eventdemo.controller.dto.CreateEventRes;
+import com.zekerijah.eventdemo.controller.dto.UpdateEventReq;
+import com.zekerijah.eventdemo.controller.dto.UpdateEventRes;
 import com.zekerijah.eventdemo.domain.Event;
 import com.zekerijah.eventdemo.domain.Period;
 import org.springframework.stereotype.Component;
@@ -25,6 +27,15 @@ public class EventMapper {
                 .title(req.getTitle())
                 .description(req.getDescription())
                 .period(period)
+                .build();
+    }
+
+    public UpdateEventRes mapUpdate (Event event) {
+        return UpdateEventRes.builder()
+                .id(event.getId())
+                .description(event.getDescription())
+                .period(periodMapper.map(event.getPeriod()))
+                .title(event.getTitle())
                 .build();
     }
 }

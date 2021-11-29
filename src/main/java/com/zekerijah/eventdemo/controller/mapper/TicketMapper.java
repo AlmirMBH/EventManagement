@@ -3,6 +3,7 @@ package com.zekerijah.eventdemo.controller.mapper;
 import com.zekerijah.eventdemo.controller.dto.CreateEventReq;
 import com.zekerijah.eventdemo.controller.dto.CreateTicketReq;
 import com.zekerijah.eventdemo.controller.dto.CreateTicketRes;
+import com.zekerijah.eventdemo.controller.dto.UpdateTicketRes;
 import com.zekerijah.eventdemo.domain.Period;
 import com.zekerijah.eventdemo.domain.Ticket;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,16 @@ public class TicketMapper {
                 .price(ticket.getPrice())
                 .quantityAvailable(ticket.getQuantityAvailable())
                 .period(periodMapper.map(ticket.getPeriod()))
+                .build();
+    }
+
+    public UpdateTicketRes mapUpdate(Ticket ticket) {
+        return UpdateTicketRes.builder()
+                .id(ticket.getId())
+                .name(ticket.getName())
+                .price(ticket.getPrice())
+                .quantityAvailable(ticket.getQuantityAvailable())
+                .periodDto(periodMapper.map(ticket.getPeriod()))
                 .build();
     }
 
