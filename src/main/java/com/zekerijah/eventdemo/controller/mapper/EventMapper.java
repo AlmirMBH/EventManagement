@@ -12,8 +12,7 @@ public class EventMapper {
     PeriodMapper periodMapper = new PeriodMapper();
 
     public CreateEventRes map(Event event) {
-        return CreateEventRes
-                .builder()
+        return CreateEventRes.builder()
                 .id(event.getId())
                 .description(event.getDescription())
                 .period(periodMapper.map(event.getPeriod()))

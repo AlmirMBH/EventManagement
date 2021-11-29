@@ -9,6 +9,7 @@ import javax.persistence.PreUpdate;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 
 import static com.zekerijah.eventdemo.controller.handler.ErrorCode.*;
 
@@ -66,5 +67,18 @@ public class Period {
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Period)) return false;
+        Period period = (Period) o;
+        return Objects.equals(getStartDate(), period.getStartDate()) && Objects.equals(getEndDate(), period.getEndDate()) && Objects.equals(getStartTime(), period.getStartTime()) && Objects.equals(getEndTime(), period.getEndTime());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStartDate(), getEndDate(), getStartTime(), getEndTime());
     }
 }

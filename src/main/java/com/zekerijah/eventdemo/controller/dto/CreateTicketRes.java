@@ -7,9 +7,10 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class CreateEventRes {
+public class CreateTicketRes {
     private Long id;
-    private String title;
-    private String description;
+    private String name;
+    private Double price;
+    private Integer quantityAvailable;
     private PeriodDto period;
 }
