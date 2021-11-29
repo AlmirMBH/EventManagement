@@ -3,6 +3,7 @@ package com.zekerijah.eventdemo.controller;
 import com.zekerijah.eventdemo.controller.dto.CreateTicketReq;
 import com.zekerijah.eventdemo.controller.dto.CreateTicketRes;
 import com.zekerijah.eventdemo.controller.dto.UpdateTicketReq;
+import com.zekerijah.eventdemo.controller.dto.UpdateTicketRes;
 import com.zekerijah.eventdemo.controller.mapper.PeriodMapper;
 import com.zekerijah.eventdemo.controller.mapper.TicketMapper;
 import com.zekerijah.eventdemo.domain.Period;
@@ -50,17 +51,19 @@ public class TicketController {
 
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
-    public void updateTicket(@RequestBody UpdateTicketReq req){
-        Period period = periodMapper.map(req.getPeriod());
+    public UpdateTicketRes updateTicket(@RequestBody UpdateTicketReq req){
+        log.info("Update ticket " + req.toString());
 
         Ticket ticket = Ticket.builder()
+                .id(req.getId())
                 .name(req.getName())
                 .price(req.getPrice())
                 .quantityAvailable(req.getQuantityAvailable())
-                .period(period)
+                .period(periodMapper.map(req.getPeriod()))
                 .build();
 
-        ticketService.updateTicket(ticket);
+        Ticket updated = ticketService.updateTicket(ticket);
+        return ticketMapper.mapUpdate(updated);
 
     }
 
