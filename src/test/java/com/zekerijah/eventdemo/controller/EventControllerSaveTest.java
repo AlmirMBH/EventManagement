@@ -1,8 +1,7 @@
 package com.zekerijah.eventdemo.controller;
 
-import com.zekerijah.eventdemo.controller.dto.CreateEventDto;
+import com.zekerijah.eventdemo.controller.dto.CreateEventReq;
 import com.zekerijah.eventdemo.controller.dto.PeriodDto;
-import com.zekerijah.eventdemo.domain.Event;
 import com.zekerijah.eventdemo.service.EventService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -30,7 +29,7 @@ public class EventControllerSaveTest extends WebLayerBase {
                 .end(LocalDateTime.now().plusDays(1))
                 .build();
 
-        final CreateEventDto req = CreateEventDto.builder()
+        final CreateEventReq req = CreateEventReq.builder()
                 .title("Dummy Title")
                 .description("Dummy Description")
                 .period(periodDto)

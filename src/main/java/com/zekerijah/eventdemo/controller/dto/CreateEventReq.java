@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateEventDto {
+public class CreateEventReq {
     @NotBlank
     private String title;
     @NotBlank
@@ -22,7 +22,7 @@ public class CreateEventDto {
 
     @Override
     public String toString() {
-        return "CreateEventDto{" +
+        return "CreateEventReq{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", period=" + period +

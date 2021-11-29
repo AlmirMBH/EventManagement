@@ -4,32 +4,32 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateEventDto {
+public class CreateTicketReq {
+    @NotBlank
+    private String name;
     @NotNull
-    @Positive
-    private Long id;
-    @NotBlank
-    private String title;
-    @NotBlank
-    private String description;
+    private Double price;
+    @NotNull
+    private Integer quantityAvailable;
     @NotNull
     private PeriodDto period;
 
     @Override
     public String toString() {
-        return "UpdateEventDto{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
+        return "CreateTicketReq{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", quantityAvailable=" + quantityAvailable +
                 ", period=" + period +
                 '}';
     }

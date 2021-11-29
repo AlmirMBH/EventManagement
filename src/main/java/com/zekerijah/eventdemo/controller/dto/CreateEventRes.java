@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class EventCreatedResDto {
+public class CreateEventRes {
     private Long id;
     private String title;
     private String description;

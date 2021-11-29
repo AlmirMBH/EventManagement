@@ -1,7 +1,7 @@
 package com.zekerijah.eventdemo.controller.mapper;
 
 import com.zekerijah.eventdemo.EventUtil;
-import com.zekerijah.eventdemo.controller.dto.EventCreatedResDto;
+import com.zekerijah.eventdemo.controller.dto.CreateEventRes;
 import com.zekerijah.eventdemo.domain.Event;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ public class EventMapperTest {
         // given
         Event generate = EventUtil.generate();
         // when
-        EventCreatedResDto result = eventMapper.map(generate);
+        CreateEventRes result = eventMapper.map(generate);
         // then
         assertThat(result).isNotNull();
         assertThat(generate.getId()).isEqualTo(result.getId());

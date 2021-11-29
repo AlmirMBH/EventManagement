@@ -13,7 +13,7 @@ import javax.validation.constraints.Positive;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateTicketDto {
+public class UpdateTicketReq {
     @NotNull
     @Positive
     private Long id;
@@ -30,7 +30,7 @@ public class UpdateTicketDto {
 
     @Override
     public String toString() {
-        return "UpdateTicketDto{" +
+        return "UpdateTicketReq{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +

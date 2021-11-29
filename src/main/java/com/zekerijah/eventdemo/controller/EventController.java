@@ -1,8 +1,8 @@
 package com.zekerijah.eventdemo.controller;
 
-import com.zekerijah.eventdemo.controller.dto.CreateEventDto;
-import com.zekerijah.eventdemo.controller.dto.EventCreatedResDto;
-import com.zekerijah.eventdemo.controller.dto.UpdateEventDto;
+import com.zekerijah.eventdemo.controller.dto.CreateEventReq;
+import com.zekerijah.eventdemo.controller.dto.CreateEventRes;
+import com.zekerijah.eventdemo.controller.dto.UpdateEventReq;
 import com.zekerijah.eventdemo.controller.mapper.EventMapper;
 import com.zekerijah.eventdemo.controller.mapper.PeriodMapper;
 import com.zekerijah.eventdemo.domain.Event;
@@ -40,7 +40,7 @@ public class EventController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EventCreatedResDto createEvent(@RequestBody @Validated CreateEventDto req){
+    public CreateEventRes createEvent(@RequestBody @Validated CreateEventReq req){
         log.info("Create event " + req.toString());
         Period period = periodMapper.map( req.getPeriod() );
         Event event = eventMapper.map(req, period);
@@ -50,7 +50,7 @@ public class EventController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void updateEvent(@RequestBody UpdateEventDto req){
+    public void updateEvent(@RequestBody UpdateEventReq req){
         Period period = periodMapper.map( req.getPeriod());
 
         Event event = Event.builder()
