@@ -28,5 +28,4 @@ public class EventMapper {
                 .period(period)
                 .build();
     }
-
 }
