@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zekerijah.eventdemo.controller.mapper.EventMapper;
 import com.zekerijah.eventdemo.controller.mapper.PeriodMapper;
+import com.zekerijah.eventdemo.controller.mapper.TicketMapper;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,7 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest
 @MockBeans(value = {
         @MockBean(value = EventMapper.class),
-        @MockBean(value = PeriodMapper.class)
+        @MockBean(value = PeriodMapper.class),
+        @MockBean(value = TicketMapper.class)
 })
 public class WebLayerBase {
 
