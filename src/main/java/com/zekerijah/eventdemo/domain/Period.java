@@ -16,6 +16,7 @@ import static com.zekerijah.eventdemo.controller.handler.ErrorCode.*;
 @Getter
 @Setter
 @Embeddable
+// allows the class to be included into another entity without creating a separate table
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

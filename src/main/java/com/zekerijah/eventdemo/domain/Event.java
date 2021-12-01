@@ -30,6 +30,7 @@ public class Event {
     private String description;
 
     @Embedded
+    // allows the class to be included into another entity without creating a separate table; see columns end date, start date, end time, start time in tables Event and Ticket
     private Period period;
 
     @OneToMany(

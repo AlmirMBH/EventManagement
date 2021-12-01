@@ -14,6 +14,7 @@ public class PeriodMapper {
 
        return Period.builder()
                 .startDate(dto.getStart().toLocalDate())
+                // getStart(), getEnd() are Lombock generated (see PeriodDto)
                 .endDate(dto.getEnd().toLocalDate())
                 .startTime(Time.valueOf(dto.getStart().toLocalTime()))
                 .endTime(Time.valueOf(dto.getEnd().toLocalTime()))
