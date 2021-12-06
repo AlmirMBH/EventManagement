@@ -18,9 +18,9 @@ import static org.mockito.Mockito.verify;
 @WebMvcTest(EventController.class)
 public class EventControllerSaveTest extends WebLayerBase {
 
-    private final String URL = String.format("/events");
+    private final String URL = String.format("/events"); // method location
 
-    @MockBean private EventService eventService;
+    @MockBean private EventService eventService; // saves data in Spring memory
 
     @Test
     void whenValidRequest_thenSaveProduct(){

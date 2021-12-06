@@ -43,6 +43,7 @@ public class EventController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CreateEventRes createEvent(@RequestBody @Validated CreateEventReq req){
+        // @Validated validates user input against EventReq
         log.info("Create event " + req.toString());
         Period period = periodMapper.map( req.getPeriod() );
         Event event = eventMapper.map(req, period);

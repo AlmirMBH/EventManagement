@@ -27,6 +27,7 @@ public class EventMapper {
                 .title(req.getTitle())
                 .description(req.getDescription())
                 .period(period)
+                // .period(periodMapper.map(req.getPeriod()))
                 .build();
     }
 

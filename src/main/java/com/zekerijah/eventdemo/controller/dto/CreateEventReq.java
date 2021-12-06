@@ -13,14 +13,16 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateEventReq {
-    @NotBlank
+    @NotBlank // mandatory field cannot be empty string
     private String title;
     @NotBlank
     private String description;
     @NotNull
     private PeriodDto period;
+    // PeriodDto is specified because of tests, so that the user cannot influence the way the data are inserted into the DB
+    // Unlike PeriodDto (only start and end), class Periods contains start date and time and end date and time
 
-    @Override
+    @Override // from Object class
     public String toString() {
         return "CreateEventReq{" +
                 "title='" + title + '\'' +
